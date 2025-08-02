@@ -1,0 +1,16 @@
+﻿
+namespace Customer.Domain.Entities
+{
+    public class UserDTO
+    {
+
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public decimal MensalIncome { get; set; }
+        public UserDTO(User usr)
+        {
+            (Id, Name, Email, MensalIncome) = (usr.Id, usr.Name, usr.Email, usr.MensalIncome);
+        }
+    }
+}
