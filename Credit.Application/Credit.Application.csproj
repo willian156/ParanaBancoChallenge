@@ -7,10 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="Extensions\" />
-    <Folder Include="Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Credit.Infrastructure\Credit.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

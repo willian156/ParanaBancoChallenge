@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace Credit.Domain.Entities
 {
-    public class UserReadOnly
+    public class CreditProposalDTO
     {
         public Guid Id { get; set; }
+        public decimal Proposal { get; set; }
+        public Guid UserId { get; set; }
+        public User User { get; set; }
     }
 }

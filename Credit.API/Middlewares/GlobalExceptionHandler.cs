@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Customer.API.Middlewares
+namespace Credit.API.Middlewares
 {
     public class GlobalExceptionHandler
     {

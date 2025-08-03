@@ -11,6 +11,6 @@ namespace Credit.Domain.Entities
         public Guid Id { get; set; }
         public decimal Proposal { get; set; }
         public Guid UserId { get; set; }
-        public UserReadOnly User { get; set; }
+        public User User { get; set; }
     }
 }

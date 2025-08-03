@@ -12,19 +12,26 @@ namespace Credit.Infrastructure.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
-        DbSet<CreditProposal> CreditProposals { get; set; }
-        DbSet<UserReadOnly> Users { get; set; }
+        public DbSet<CreditProposal> CreditProposals { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserReadOnly>().ToTable("Users");
-            modelBuilder.Entity<UserReadOnly>().HasKey(c => c.Id);
-
             modelBuilder.Entity<CreditProposal>()
                 .HasOne(p => p.User)
                 .WithOne()
                 .HasForeignKey<CreditProposal>(p => p.UserId)
                 .IsRequired();
+
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("Users");
+                entity.HasKey(c => c.Id);
+
+                entity.Metadata.SetIsTableExcludedFromMigrations(true);
+            });
+
         }
     }
 }
