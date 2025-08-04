@@ -1,29 +1,38 @@
-# Acesse https://aka.ms/customizecontainer para saber como personalizar seu contêiner de depuração e como o Visual Studio usa este Dockerfile para criar suas imagens para uma depuração mais rápida.
-
-# Esta fase é usada durante a execução no VS no modo rápido (Padrão para a configuração de Depuração)
+# Base da aplicação
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-
-# Esta fase é usada para compilar o projeto de serviço
+# Fase de build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+
+# Copia apenas os .csproj dos projetos usados
 COPY ["Customer.API/Customer.API.csproj", "Customer.API/"]
+COPY ["Customer.Application/Customer.Application.csproj", "Customer.Application/"]
+COPY ["Customer.Domain/Customer.Domain.csproj", "Customer.Domain/"]
+COPY ["Customer.Infrastructure/Customer.Infrastructure.csproj", "Customer.Infrastructure/"]
+COPY ["Shared/Shared.csproj", "Shared/"]
+
+# Restaura os pacotes
 RUN dotnet restore "./Customer.API/Customer.API.csproj"
+
+# Copia os arquivos de código
 COPY . .
-WORKDIR "/src/Customer.API"
+
+# Compila
+WORKDIR /src/Customer.API
 RUN dotnet build "./Customer.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Esta fase é usada para publicar o projeto de serviço a ser copiado para a fase final
+# Publica
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./Customer.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# Esta fase é usada na produção ou quando executada no VS no modo normal (padrão quando não está usando a configuração de Depuração)
+# Runtime
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .

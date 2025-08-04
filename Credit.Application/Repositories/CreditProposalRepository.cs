@@ -17,7 +17,7 @@ namespace Credit.Application.Repositories
 
         public async Task<CreditProposalDTO?> GetCreditProposal(Guid id)
         {
-            var creditProposal = await _context.CreditProposals.FirstOrDefaultAsync(x => x.Id == id);
+            var creditProposal = await _context.CreditProposals.FirstOrDefaultAsync(x => x.UserId == id);
 
             if (creditProposal == null)
             {

@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Credit.Domain.Entities;
 using Credit.Infrastructure.Data;
 using Credit.Application.Interfaces;
+using Credit.Application.DTOs;
 
 namespace Credit.API.Controllers
 {

@@ -18,7 +18,7 @@ namespace Card.Application.Repositories
 
         public async Task<CardProposalDTO> GetCardProposal(Guid id)
         {
-            var cardProposal = await _context.Cards.FirstOrDefaultAsync(x =>x.Id == id);
+            var cardProposal = await _context.Cards.FirstOrDefaultAsync(x =>x.UserId == id);
 
             if (cardProposal == null)
             {
