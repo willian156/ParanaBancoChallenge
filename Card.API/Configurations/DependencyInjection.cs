@@ -1,19 +1,19 @@
-﻿using Credit.Application.Consumers;
-using Credit.Application.Interfaces;
-using Credit.Application.Repositories;
+﻿using Card.Application.Consumers;
+using Card.Application.Interfaces;
+using Card.Application.Repositories;
 using MassTransit;
 
-namespace Credit.API.Configurations
+namespace Card.API.Configurations
 {
     public static class DependencyInjection
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<ICreditProposalRepository, CreditProposalRepository>();
+            services.AddScoped<ICardRepository, CardRepository>();
 
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<UserCreatedEventConsumer>();
+                x.AddConsumer<CreditProposalCreatedEventConsumer>();
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
@@ -23,9 +23,9 @@ namespace Credit.API.Configurations
                         h.Password(configuration["RabbitMq:Password"]);
                     });
 
-                    cfg.ReceiveEndpoint("credit-user-created-queue", e =>
+                    cfg.ReceiveEndpoint("card-creditproposal-created-queue", e =>
                     {
-                        e.ConfigureConsumer<UserCreatedEventConsumer>(context);
+                        e.ConfigureConsumer<CreditProposalCreatedEventConsumer>(context);
                     });
                 });
             });
@@ -35,3 +35,4 @@ namespace Credit.API.Configurations
         }
     }
 }
+

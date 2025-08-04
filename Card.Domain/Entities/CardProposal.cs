@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Card.Domain.Entities
 {
-    public class Card
+    public class CardProposal
     {
         public Guid Id { get; set; }
         public CardType CardType { get; set; }
         public Guid UserId { get; set; }
-        public UserReadOnly User { get; set; }
+        public User User { get; set; }
         public Guid CreditProposalId { get; set; }
-        public CreditProposalReadOnly CreditProposal { get; set; }
+        public CreditProposal CreditProposal { get; set; }
     }
 }

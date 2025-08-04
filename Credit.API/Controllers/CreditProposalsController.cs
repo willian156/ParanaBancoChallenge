@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Credit.Domain.Entities;
 using Credit.Infrastructure.Data;
+using Credit.Application.Interfaces;
 
 namespace Credit.API.Controllers
 {
@@ -10,24 +11,26 @@ namespace Credit.API.Controllers
     public class CreditProposalsController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly ICreditProposalRepository _repository;
 
-        public CreditProposalsController(DataContext context)
+        public CreditProposalsController(DataContext context, ICreditProposalRepository repository)
         {
             _context = context;
+            _repository = repository;
         }
 
         // GET: api/CreditProposals/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CreditProposal>> GetCreditProposal(Guid id)
+        public async Task<ActionResult<CreditProposalDTO>> GetCreditProposal(Guid id)
         {
-            var creditProposal = await _context.CreditProposals.FindAsync(id);
+            var creditProposal = await _repository.GetCreditProposal(id);
 
-            if (creditProposal == null)
+            if (creditProposal == null) 
             {
                 return NotFound();
             }
 
-            return creditProposal;
+            return Ok(creditProposal);
         }
     }
 }

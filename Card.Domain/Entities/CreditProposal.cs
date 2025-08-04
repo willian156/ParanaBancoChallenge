@@ -1,14 +1,12 @@
-﻿using Credit.Domain.Entities;
+﻿using Card.Domain.Entities;
 
-namespace Credit.Application.DTOs
+namespace Card.Domain.Entities
 {
-    public class CreditProposalDTO
+    public class CreditProposal
     {
         public Guid Id { get; set; }
         public decimal Proposal { get; set; }
         public Guid UserId { get; set; }
         public User User { get; set; }
-
-        public CreditProposalDTO() { }
     }
 }

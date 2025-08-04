@@ -33,6 +33,13 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Apply the migrations automatically
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+    db.Database.Migrate();
+}
+
 // ----------------------------------------
 // Configure Middleware
 // ----------------------------------------

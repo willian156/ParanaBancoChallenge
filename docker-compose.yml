@@ -1,0 +1,82 @@
+version: '3.9'
+
+services:
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Passw0rd
+    ports:
+      - "1433:1433"
+    networks:
+      - backend
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"     # Porta para conexão com serviços
+      - "15672:15672"   # Porta da UI de administração
+    networks:
+      - backend
+
+  card.api:
+    build:
+      context: .
+      dockerfile: src/Card/Card.API/Dockerfile
+    container_name: card.api
+    ports:
+      - "5001:8080"
+    depends_on:
+      - sqlserver
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CardDb;User=sa;Password=YourStrong@Passw0rd
+      - RabbitMQ__Host=rabbitmq
+    networks:
+      - backend
+
+  credit.api:
+    build:
+      context: .
+      dockerfile: src/Credit/Credit.API/Dockerfile
+    container_name: credit.api
+    ports:
+      - "5002:8080"
+    depends_on:
+      - sqlserver
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CreditDb;User=sa;Password=YourStrong@Passw0rd
+      - RabbitMQ__Host=rabbitmq
+    networks:
+      - backend
+
+  customer.api:
+    build:
+      context: .
+      dockerfile: src/Customer/Customer.API/Dockerfile
+    container_name: customer.api
+    ports:
+      - "5003:8080"
+    depends_on:
+      - sqlserver
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CustomerDb;User=sa;Password=YourStrong@Passw0rd
+      - RabbitMQ__Host=rabbitmq
+    networks:
+      - backend
+
+networks:
+  backend:
+
+volumes:
+  sqlserver_data:

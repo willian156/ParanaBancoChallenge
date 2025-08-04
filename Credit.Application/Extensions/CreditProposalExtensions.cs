@@ -1,15 +1,11 @@
-﻿using Credit.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Credit.Application.DTOs;
+using Credit.Domain.Entities;
 
 namespace Credit.Application.Extensions
 {
     public static class CreditProposalExtensions
     {
-        public static CreditProposal DtoToEntity(CreditProposalDTO dto)
+        public static CreditProposal DtoToEntity(this CreditProposalDTO dto)
         {
             return new CreditProposal()
             {
@@ -20,7 +16,7 @@ namespace Credit.Application.Extensions
             };
         }
 
-        public static CreditProposalDTO EntityToDto(CreditProposal ent)
+        public static CreditProposalDTO EntityToDto(this CreditProposal ent)
         {
             return new CreditProposalDTO()
             {

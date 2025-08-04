@@ -1,12 +1,21 @@
+using Credit.API.Configurations;
 using Credit.API.Middlewares;
+using Credit.Application.Interfaces;
+using Credit.Application.Repositories;
 using Credit.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ======================
+// Register the dependency injection
+builder.Services.AddScoped<ICreditProposalRepository, CreditProposalRepository>();
+
+// Register Configuration
+builder.Services.AddApplicationServices(builder.Configuration);
+
+// ----------------------------------------
 // Configure DbContext
-// ======================
+// ----------------------------------------
 builder.Services.AddDbContext<DataContext>(options =>
 {
     // Retrieve connection string from appsettings.json
@@ -19,17 +28,18 @@ builder.Services.AddDbContext<DataContext>(options =>
     });
 });
 
-// ======================
+
+// ----------------------------------------
 // Register application services
-// ======================
+// ----------------------------------------
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// ======================
+// ----------------------------------------
 // Enable CORS
-// ======================
+// ----------------------------------------
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -40,9 +50,16 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// ======================
-// Configure HTTP request pipeline
-// ======================
+// Apply the migrations automatically
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+    db.Database.Migrate();
+}
+
+// ----------------------------------------
+// Configure Middleware
+// ----------------------------------------
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

@@ -1,6 +1,6 @@
-﻿using Credit.Domain.Entities;
+﻿using Card.Domain.Entities;
 
-namespace Credit.Application.DTOs
+namespace Card.Applications.DTOs
 {
     public class CreditProposalDTO
     {

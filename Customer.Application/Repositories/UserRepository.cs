@@ -1,11 +1,11 @@
 ﻿using Customer.Application.DTOs;
-using Customer.Application.Events;
 using Customer.Application.Extensions;
 using Customer.Application.Interfaces;
 using Customer.Domain.Entities;
 using Customer.Infrastructure.Data;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Shared.Contracts;
 
 namespace Customer.Application.Repositories
 {

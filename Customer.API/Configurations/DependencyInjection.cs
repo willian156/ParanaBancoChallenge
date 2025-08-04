@@ -1,7 +1,7 @@
-﻿using Customer.Application.Events;
-using Customer.Application.Interfaces;
+﻿using Customer.Application.Interfaces;
 using Customer.Application.Repositories;
 using MassTransit;
+using Shared.Contracts;
 
 namespace Customer.API.Configurations
 {
@@ -22,7 +22,6 @@ namespace Customer.API.Configurations
                     });
 
                     cfg.ConfigureEndpoints(context);
-
                     cfg.Publish<UserCreatedEvent>(e =>
                     {
                         e.Durable = true;
