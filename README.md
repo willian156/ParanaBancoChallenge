@@ -103,4 +103,4 @@ Caso tenha interesse em saber mais sobre este projeto ou entrar em contato:
 
 **Willian Beck Ribeiro**  
 Desenvolvedor Full Stack  
-[LinkedIn](https://www.linkedin.com/in/willianbeckribeiro/) • [GitHub](https://github.com/seuusuario)
+[LinkedIn](https://www.linkedin.com/in/willian-beck-ribeiro/) • [GitHub](https://github.com/willian156)
